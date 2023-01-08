@@ -134,15 +134,51 @@ void Movable::Rotate(const Eigen::Matrix3f& rot)
     PropagateTransform();
 }
 
+void Movable::Rotate(const Eigen::Quaternionf& quat)
+{
+    if (isStatic) return;
+    Tout.rotate(quat);
+    PropagateTransform();
+}
+
 void Movable::Rotate(float angle, Axis axis)
 {
     Rotate(angle, AxisVec(axis).normalized());
 }
 
+
+Eigen::Matrix3f angle_X_to_matrix(float angle)
+{
+    Eigen::Matrix3f R = Eigen::Matrix3f::Zero();
+    R(0, 0) = 1;
+    R(1, 1) = std::cos(angle);
+    R(2, 2) = std::cos(angle);
+    R(1, 2) = std::sin(angle) * -1;
+    R(2, 1) = std::sin(angle);
+    return R;
+}
+
+Eigen::Matrix3f angle_Z_to_matrix(float angle)
+{
+    Eigen::Matrix3f R = Eigen::Matrix3f::Zero();
+    R(0, 0) = std::cos(angle);
+    R(1, 1) = std::cos(angle);
+    R(2, 2) = 1;
+    R(0, 1) = std::sin(angle) * -1;
+    R(1, 0) = std::sin(angle);
+    return R;
+}
+
 void Movable::Rotate(float angle, const Eigen::Vector3f& axisVec)
 {
-    if (isStatic) return;
-    Tout.rotate(Eigen::AngleAxisf(angle, axisVec.normalized()));
+    if (isStatic)return;
+    Eigen::AngleAxis T(angle, axisVec);
+    Eigen::Matrix3f new_rotation = T.toRotationMatrix();
+    Eigen::Vector3f angles = new_rotation.eulerAngles(2, 0, 2);
+    Eigen::Matrix3f tout_rotation = Tout.rotation();
+    Tout.rotate(tout_rotation.transpose()); //return to inital state
+    Eigen::Matrix3f euler_rotation = angle_Z_to_matrix(angles(0)) * angle_X_to_matrix(angles(1)) * tout_rotation * angle_Z_to_matrix(angles(2));
+    Tout.rotate(euler_rotation);
     PropagateTransform();
 }
 

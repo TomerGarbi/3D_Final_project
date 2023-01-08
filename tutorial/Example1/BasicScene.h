@@ -15,7 +15,14 @@ public:
     void ScrollCallback(cg3d::Viewport* viewport, int x, int y, int xoffset, int yoffset, bool dragging, int buttonState[]) override;
     void CursorPosCallback(cg3d::Viewport* viewport, int x, int y, bool dragging, int* buttonState)  override;
     void KeyCallback(cg3d::Viewport* viewport, int x, int y, int key, int scancode, int action, int mods) override;
-     Eigen::Vector3f GetSpherePos();
+    void Animate();
+    void print_tips();
+    std::vector<Eigen::Vector3f> tips_position();
+    Eigen::Vector3f GetSpherePos();
+    Eigen::Matrix3f angle_X_to_matrix(float angle);
+    Eigen::Matrix3f angle_Z_to_matrix(float angle);
+
+
 private:
     std::shared_ptr<Movable> root;
     std::shared_ptr<cg3d::Model> sphere1 ,cube;
@@ -28,4 +35,6 @@ private:
     Eigen::VectorXi EQ;
   // If an edge were collapsed, we'd collapse it to these points:
     Eigen::MatrixXd V, C, N, T, points,edges,colors;
+    double link_length = 1.6;
+    int number_of_cyls = 5;
 };

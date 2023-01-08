@@ -16,6 +16,7 @@ void Visitor::Run(Scene* scene, Camera* camera)
 
 void Visitor::Visit(Movable* movable)
 {
+
     for (const auto& child: movable->children)
         child->Accept(this);
 }

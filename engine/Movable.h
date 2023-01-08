@@ -51,6 +51,7 @@ public:
     virtual Eigen::Vector3f GetTranslation() const;
 
     virtual void Rotate(const Eigen::Matrix3f& rot);
+    virtual void Rotate(const Eigen::Quaternionf& quat);
     virtual void Rotate(float angle, Axis axis);
     virtual void Rotate(float angle, const Eigen::Vector3f& axisVec);
     virtual void RotateByDegree(float degree, Axis axis);

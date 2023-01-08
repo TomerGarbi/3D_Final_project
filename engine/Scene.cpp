@@ -16,6 +16,11 @@ Scene::Scene(std::string name, Display* display) : Movable(std::move(name)), ren
     window = display->window;
 }
 
+void Scene::Animate()
+{
+    std::cout << "animte -> Scene" << std::endl;
+}
+
 void Scene::Init(Visitor* visitor)
 {
     visitor->Init();

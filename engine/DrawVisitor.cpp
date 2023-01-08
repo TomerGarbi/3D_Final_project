@@ -42,8 +42,11 @@ void DrawVisitor::Init()
 
 void DrawVisitor::Visit(Scene* _scene)
 {
+    if (_scene->IK)
+    {
+        _scene->Animate();
+    }
     Visitor::Visit(_scene); // draw children first
-
     if (_scene->pickedModel && drawOutline)
         DrawOutline();
 }
