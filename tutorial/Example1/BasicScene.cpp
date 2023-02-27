@@ -278,7 +278,7 @@ void BasicScene::Animate()
                 //cyls[i]->Rotate(-1 * angle / 20, RD.cross(RE));
             }
             Eigen::Quaternionf quat = Eigen::Quaternionf::FromTwoVectors(RE, RD);
-            quat = quat.slerp(0.9f, Eigen::Quaternionf::Identity());
+            quat = quat.slerp(0.92f, Eigen::Quaternionf::Identity());
             cyls[i]->Rotate(quat);
             if ((E - D).norm() <= 0.05f)
             {

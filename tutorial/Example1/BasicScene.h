@@ -36,5 +36,5 @@ private:
   // If an edge were collapsed, we'd collapse it to these points:
     Eigen::MatrixXd V, C, N, T, points,edges,colors;
     double link_length = 1.6;
-    int number_of_cyls = 5;
+    int number_of_cyls = 10;
 };
